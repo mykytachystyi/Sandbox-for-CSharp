@@ -1,0 +1,74 @@
+﻿Console.WriteLine("Starting Thread Demo!");
+
+// Example: Using a Thread
+Thread thread = new Thread(() =>
+{
+    Console.WriteLine("Hello from a new thread!");
+});
+thread.Start();
+
+// Example: ThreadPool
+ThreadPool.QueueUserWorkItem(state =>
+{
+    Console.WriteLine("Hello from the ThreadPool!");
+});
+
+Console.WriteLine("Main thread continues...");
+
+
+var processor = new MultiFileProcessor();
+
+await processor.Start();
+
+class MultiFileProcessor
+{
+    public async Task Start()
+    {
+        Console.WriteLine("Starting Multi-File Data Processor...");
+
+        string[] filePaths = { "file1.txt", "file2.txt", "file3.txt" }; // Example file paths
+        CancellationTokenSource cts = new CancellationTokenSource();
+
+        // Start processing files asynchronously
+        try
+        {
+            ConcurrentDictionary<string, string> results = new();
+            await ProcessFilesAsync(filePaths, results, cts.Token);
+
+            Console.WriteLine("\nProcessing completed!");
+            foreach (var result in results)
+            {
+                Console.WriteLine($"File: {result.Key}, Processed Data: {result.Value}");
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("\nProcessing canceled!");
+        }
+    }
+
+    static async Task ProcessFilesAsync(string[] filePaths, ConcurrentDictionary<string, string> results, CancellationToken token)
+    {
+        var tasks = filePaths.Select(filePath => Task.Run(() =>
+        {
+            var fullPath = $"{Directory.GetCurrentDirectory()}\\{filePath}";
+            token.ThrowIfCancellationRequested();
+            Console.WriteLine($"Reading file: {fullPath}");
+
+            if (!File.Exists($"{fullPath}"))
+            {
+                File.Create($"{fullPath}").Close(); 
+            }
+
+            // Simulate file reading and processing
+            Thread.Sleep(1000); // Simulate delay
+            string fileContent = File.ReadAllText(fullPath); // Read file
+            string processedData = $"Processed: {fileContent.Length} chars";
+
+            results[filePath] = processedData;
+            Console.WriteLine($"Finished processing: {filePath}");
+        }, token));
+
+        await Task.WhenAll(tasks); // Wait for all tasks to complete
+    }
+}
