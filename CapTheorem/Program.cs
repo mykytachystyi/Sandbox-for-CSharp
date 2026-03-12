@@ -6,9 +6,22 @@ using System.Data.SqlClient;
 "CAP-теорема" або теорема Брюера є важливою концепцією в сфері розподілених обчислень. 
 Основна ідея полягає в тому, що у розподіленій системі можна одночасно досягти лише двох із трьох властивостей:
 
-1. **Consistency (консистентність): Усі вузли системи бачать однакові дані в один і той же момент часу.
-2. **Availability (доступність): Кожен запит від клієнта отримує відповідь, незалежно від стану окремих вузлів.
-3. **Partition Tolerance (стійкість до розділу): Система продовжує працювати, незважаючи на мережеві розриви або поділи.
+1. **Consistency (консистентність): (Інша людина бачить, що я внес зміни, а це займає час)
+Усі вузли системи бачать однакові дані в один і той же момент часу.
+2. **Availability (доступність): (Ти точно щось побачишь, навіть неправильной результат) 
+Кожен запит від клієнта отримує відповідь, незалежно від стану окремих вузлів.
+3. **Partition Tolerance (стійкість до розділу):(Система не може спілкуватися одне з одним) 
+Система продовжує працювати, незважаючи на мережеві розриви або поділи.
+
+Before building or designing a system, determine which two aspects are the most crucial for your use case. 
+Some examples:
+- Banking Systems → CP (Consistency & Partition Tolerance)**: 
+    Must ensure strict consistency; availability can take a slight hit during network failures.
+- Social Media & Caching Systems → AP (Availability & Partition Tolerance)**: 
+    Prioritizing quick access over absolute consistency.
+- Real-Time Stock Trading → CA (Consistency & Availability)**: 
+    Ensuring accurate financial transactions but may have weaker partition tolerance.
+
 
 Тобто, якщо є мережевий розрив (розділ), необхідно зробити вибір між консистентністю та доступністю, 
 оскільки одночасно досягти усіх трьох властивостей неможливо. Це дуже корисна концепція для розуміння компромісів 

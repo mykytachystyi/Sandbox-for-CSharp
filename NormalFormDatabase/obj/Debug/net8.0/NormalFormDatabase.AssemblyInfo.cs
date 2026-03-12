@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NormalFormDatabase")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6cb77e8c9aab3c0229a5e05dd341356c0572020b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3281302592cc06bb11da76c3335618a54a188ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("NormalFormDatabase")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NormalFormDatabase")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
